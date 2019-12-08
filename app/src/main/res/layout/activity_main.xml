@@ -7,18 +7,32 @@
     tools:context=".MainActivity">
 
     <android.widget.Toolbar
-        android:id="@+id/toolBar"
+        android:id="@+id/toolBar_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorAccent">
-    </android.widget.Toolbar>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView_facts"
+        android:background="@color/colorAccent" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/network_textView"
+        android:textColor="@color/colorBlack"
+        android:textSize="15sp"
+        android:text="@string/network_error"
+        android:gravity="center_horizontal"
+        android:layout_centerInParent="true"
+        android:textStyle="bold"
+        android:visibility="gone"/>
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-       android:layout_below="@+id/toolBar">
+        android:layout_below="@+id/toolBar_view">
 
-    </androidx.recyclerview.widget.RecyclerView>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView_facts"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
+        </androidx.recyclerview.widget.RecyclerView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </RelativeLayout>

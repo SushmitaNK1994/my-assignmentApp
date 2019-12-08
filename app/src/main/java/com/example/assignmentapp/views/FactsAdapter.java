@@ -18,7 +18,10 @@ import com.example.assignmentapp.R;
 import com.example.assignmentapp.model.DataDTO;
 import com.example.assignmentapp.model.FactsDTO;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
+/*Adapter for the facts data*/
 
 public class FactsAdapter extends RecyclerView.Adapter<FactsAdapter.ViewHolder> {
     private Context context;
@@ -38,15 +41,19 @@ public class FactsAdapter extends RecyclerView.Adapter<FactsAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        FactsDTO factsDTO = mDataDto.getRowsList().get(position);
-        if (factsDTO.getTitle() == null && factsDTO.getImageHref() == null && factsDTO.getDescription() == null) {
-            mDataDto.getRowsList().remove(position);
+        if (mDataDto != null) {
+            FactsDTO factsDTO = mDataDto.getRowsList().get(position);
+            if (factsDTO != null) {
+                if (factsDTO.getTitle() == null && factsDTO.getImageHref() == null && factsDTO.getDescription() == null) {
+                    mDataDto.getRowsList().remove(position);
+                }
+                holder.title_text.setText(factsDTO.getTitle());
+                holder.desc_text.setText(factsDTO.getDescription());
+                RequestOptions requestOptions = new RequestOptions();
+                requestOptions.placeholder(R.drawable.ic_launcher_background);
+                Glide.with(context).load(factsDTO.getImageHref()).apply(requestOptions).into(holder.image_view);
+            }
         }
-        holder.title_text.setText(factsDTO.getTitle());
-        holder.desc_text.setText(factsDTO.getDescription());
-        RequestOptions requestOptions = new RequestOptions();
-        requestOptions.placeholder(R.drawable.ic_launcher_background);
-        Glide.with(context).load(factsDTO.getImageHref()).apply(requestOptions).into(holder.image_view);
     }
 
     @Override
@@ -60,17 +67,18 @@ public class FactsAdapter extends RecyclerView.Adapter<FactsAdapter.ViewHolder> 
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.fact_card)
         CardView cardView;
+        @BindView(R.id.title_textView)
         TextView title_text;
+        @BindView(R.id.desc_textView)
         TextView desc_text;
+        @BindView(R.id.icon_imageView)
         ImageView image_view;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            cardView=itemView.findViewById(R.id.fact_card);
-            title_text = itemView.findViewById(R.id.title_textView);
-            desc_text = itemView.findViewById(R.id.desc_textView);
-            image_view = itemView.findViewById(R.id.icon_imageView);
+            ButterKnife.bind(this, itemView);
         }
     }
 }
